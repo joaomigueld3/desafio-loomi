@@ -1,36 +1,46 @@
-import User from '../models/User.js';
-
 class UserRepository {
-  static async findById(id) {
-    return User.findByPk(id);
+  constructor(user) {
+    this.user = user;
   }
 
-  static async findByEmail(email) {
-    return User.findOne({
+  async findById(id) {
+    return this.user.findByPk(id);
+  }
+
+  async findByEmail(email) {
+    return this.user.findOne({
       where: {
         email,
       },
     });
   }
 
-  static async findAll() {
-    return User.findAll();
+  async findAll() {
+    return this.user.findAll();
   }
 
-  static async create(user) {
-    return User.create(user);
+  async create(user) {
+    return this.user.create(user);
   }
 
-  static async update(id, updatedUser) {
-    return User.update(updatedUser, {
+  async update(id, updatedUser) {
+    return this.user.update(updatedUser, {
       where: {
         id,
       },
     });
   }
 
-  static async delete(id) {
-    return User.destroy({
+  async updateByEmail(email, updatedUser) {
+    return this.user.update(updatedUser, {
+      where: {
+        email,
+      },
+    });
+  }
+
+  async delete(id) {
+    return this.user.destroy({
       where: {
         id,
       },

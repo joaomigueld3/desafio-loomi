@@ -1,3 +1,6 @@
+import bcrypt from 'bcrypt';
+import { CustomError } from '../../utils/errorHandler.js';
+
 class UserService {
   constructor(userRepository) {
     this.userRepository = userRepository;
@@ -16,7 +19,18 @@ class UserService {
   }
 
   async createUser(user) {
-    return this.userRepository.create(user);
+    const { email, password } = user;
+    const verifyEmail = await this.userRepository.findByEmail(email);
+    if (verifyEmail) {
+      throw new CustomError('Email already in use.', 400);
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return this.userRepository.create({
+      name: user.name,
+      email: user.email,
+      password: hashedPassword,
+      type: user.type,
+    });
   }
 
   async updateUser(id, updatedUser) {
@@ -25,6 +39,28 @@ class UserService {
 
   async deleteUser(id) {
     return this.userRepository.delete(id);
+  }
+
+  async login(email, password) {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new CustomError('User not found.', 404);
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      throw new CustomError('Wrong password.', 401);
+    }
+
+    return user;
+  }
+
+  async changePassword(email, password) {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new CustomError('User not found.', 404);
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await this.userRepository.updateByEmail(email, { password: hashedPassword });
   }
 }
 

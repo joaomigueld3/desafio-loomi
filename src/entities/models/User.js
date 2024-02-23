@@ -1,4 +1,4 @@
-import { Model, DataTypes, Op } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
 const UserType = {
   Admin: 'Admin',
@@ -56,29 +56,10 @@ class User extends Model {
       id: this.id,
       name: this.name,
       email: this.email,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
+      created_at: this.created_at,
+      updated_at: this.updated_at,
       type: this.type,
     };
-  }
-
-  static async findByName(name) {
-    const whereCondition = name ? {
-      name: {
-        [Op.iLike]: `%${name}%`,
-      },
-    } : {};
-
-    const users = await this.findAndCountAll({
-      where: whereCondition,
-      order: [['name', 'ASC']],
-    });
-
-    return users;
-  }
-
-  static async findById(id) {
-    return this.findByPk(id);
   }
 }
 
