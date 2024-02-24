@@ -24,12 +24,11 @@ class ClientRepository {
   }
 
   async update(clientId, updatedClient) {
-    await this.client.update(updatedClient, {
+    return this.client.update(updatedClient, {
       where: {
         clientId,
       },
     });
-    return this.findById(clientId);
   }
 
   async delete(clientId) {

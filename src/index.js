@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
-import allRoutes from './adapters/secondary/routes/allRoutes.js';
+import allRoutes from './adapters/secondary/routes/AllRoutes.js';
 
 dotenv.config({ path: '.env' });
 

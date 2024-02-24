@@ -8,6 +8,7 @@ class Client extends Model {
           type: DataTypes.INTEGER,
           primaryKey: true,
           autoIncrement: true,
+          unique: true,
           field: 'client_id',
         },
         userId: {
@@ -54,6 +55,7 @@ class Client extends Model {
 
   static associate(models) {
     this.belongsTo(models.User, { foreignKey: 'userId', unique: true });
+    this.hasMany(models.Order, { foreignKey: 'orderId' });
   }
 
   toDict() {

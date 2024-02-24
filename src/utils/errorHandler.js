@@ -14,18 +14,25 @@ function errorHandler(err, res) {
   const errorName = err.name || 'Error';
 
   if (err instanceof ForeignKeyConstraintError) {
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: 'Foreign key constraint error. Make sure the references exist.',
       errorName: 'ForeignKeyConstraintError',
     });
-  } else {
-    res.status(statusCode).json({
-      success: false,
-      message: errorMessage,
-      errorName,
-    });
   }
+  return res.status(statusCode).json({
+    success: false,
+    message: errorMessage,
+    errorName,
+  });
 }
 
-export { errorHandler, CustomError };
+function errorHandlerCustom(res, message, statusCode) {
+  return res.status(statusCode).json({
+    success: false,
+    message,
+    errorName: 'CustomError',
+  });
+}
+
+export { CustomError, errorHandler, errorHandlerCustom };

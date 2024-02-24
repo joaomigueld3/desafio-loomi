@@ -45,7 +45,7 @@ class UserService {
     if (!user) throw new CustomError('User not found.', 404);
 
     const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) throw new CustomError('Wrong password.', 401);
+    if (!passwordMatch) throw new CustomError('Wrong password.', 400);
 
     return user;
   }
@@ -55,7 +55,7 @@ class UserService {
     if (!user) throw new CustomError('User not found.', 404);
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await this.userRepository.updateByEmail(email, { password: hashedPassword });
+    return this.userRepository.updateByEmail(email, { password: hashedPassword });
   }
 }
 

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { errorHandler, CustomError } from '../../../utils/errorHandler.js';
+import { errorHandlerCustom, errorHandler } from '../../../utils/errorHandler.js';
 
 dotenv.config({ path: '.env' });
 
@@ -25,7 +25,7 @@ class UserController {
     try {
       const { id } = req.params;
       const user = await this.userService.getUserById(id);
-      if (!user) throw new CustomError('User not found.', 404);
+      if (!user) return errorHandlerCustom(res, 'User not found.', 404);
 
       return res.status(200).json(user);
     } catch (e) {
@@ -47,9 +47,10 @@ class UserController {
     try {
       const { id } = req.params;
       const updatedUser = req.body;
-      const result = await this.userService.updateUser(id, updatedUser);
-      if (!result) throw new CustomError('User not found.', 404);
+      const user = await this.userService.getUserById(id);
+      if (!user) return errorHandlerCustom(res, 'User not found.', 404);
 
+      await this.userService.updateUser(id, updatedUser);
       return res.status(200).json({ message: 'User updated successfully.', updatedUser });
     } catch (e) {
       return errorHandler(e, res);
@@ -60,7 +61,7 @@ class UserController {
     try {
       const { id } = req.params;
       const user = await this.userService.getUserById(id);
-      if (!user) throw new CustomError('User not found.', 404);
+      if (!user) return errorHandlerCustom(res, 'User not found.', 404);
 
       const userDeleted = user;
 
@@ -108,7 +109,7 @@ class UserController {
   async refreshToken(req, res) {
     try {
       const { authorization } = req.headers;
-      if (!authorization) throw new CustomError('Authentication token not provided.', 401);
+      if (!authorization) return errorHandlerCustom(res, 'Authentication token not provided.', 401);
 
       const [, refreshToken] = authorization.split(' ');
       jwt.verify(refreshToken, secretKeyRefresh, async (err, decoded) => {

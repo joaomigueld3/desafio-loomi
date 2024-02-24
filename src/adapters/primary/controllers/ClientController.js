@@ -1,4 +1,4 @@
-import { errorHandler, CustomError } from '../../../utils/errorHandler.js';
+import { errorHandlerCustom, errorHandler } from '../../../utils/errorHandler.js';
 
 class ClientController {
   constructor(clientService) {
@@ -16,9 +16,9 @@ class ClientController {
 
   async getClientById(req, res) {
     try {
-      const { clientId } = req.params;
+      const clientId = req.params.id;
       const client = await this.clientService.getClientById(clientId);
-      if (!client) throw new CustomError('Client not found.', 404);
+      if (!client) return errorHandlerCustom(res, 'Client not found.', 404);
 
       return res.status(200).json(client);
     } catch (e) {
@@ -38,11 +38,12 @@ class ClientController {
 
   async updateClient(req, res) {
     try {
-      const { clientId } = req.params;
+      const clientId = req.params.id;
       const updatedClient = req.body;
-      const result = await this.clientService.updateClient(clientId, updatedClient);
-      if (!result) throw new CustomError('Client not found.', 404);
+      const client = await this.clientService.getClientById(clientId);
+      if (!client) return errorHandlerCustom(res, 'Client not found.', 404);
 
+      await this.clientService.updateClient(clientId, updatedClient);
       return res.status(200).json({ message: 'Client updated successfully.', updatedClient });
     } catch (e) {
       return errorHandler(e, res);
@@ -50,11 +51,18 @@ class ClientController {
   }
 
   async deleteClient(req, res) {
-    const { clientId } = req.params;
-    const deletedClient = await this.clientService.deleteClient(clientId);
-    if (!deletedClient) throw new CustomError('Client not found.', 404);
+    try {
+      const clientId = req.params.id;
+      const client = await this.clientService.getClientById(clientId);
+      if (!client) return errorHandlerCustom(res, 'Client not found.', 404);
 
-    return res.status(200).json({ message: 'Client deleted successfully.' });
+      const deletedClient = client;
+
+      await this.clientService.deleteClient(clientId);
+      return res.status(200).json({ message: 'Client deleted successfully.', deletedClient });
+    } catch (e) {
+      return errorHandler(e, res);
+    }
   }
 }
 
