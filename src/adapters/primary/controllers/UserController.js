@@ -25,9 +25,8 @@ class UserController {
     try {
       const { id } = req.params;
       const user = await this.userService.getUserById(id);
-      if (!user) {
-        throw new CustomError('User not found.', 404);
-      }
+      if (!user) throw new CustomError('User not found.', 404);
+
       return res.status(200).json(user);
     } catch (e) {
       return errorHandler(e, res);
@@ -49,9 +48,8 @@ class UserController {
       const { id } = req.params;
       const updatedUser = req.body;
       const result = await this.userService.updateUser(id, updatedUser);
-      if (!result) {
-        throw new CustomError('User not found.', 404);
-      }
+      if (!result) throw new CustomError('User not found.', 404);
+
       return res.status(200).json({ message: 'User updated successfully.', updatedUser });
     } catch (e) {
       return errorHandler(e, res);
@@ -62,9 +60,7 @@ class UserController {
     try {
       const { id } = req.params;
       const user = await this.userService.getUserById(id);
-      if (!user) {
-        throw new CustomError('User not found.', 404);
-      }
+      if (!user) throw new CustomError('User not found.', 404);
 
       const userDeleted = user;
 
@@ -112,26 +108,18 @@ class UserController {
   async refreshToken(req, res) {
     try {
       const { authorization } = req.headers;
-      if (!authorization) {
-        throw new CustomError('Authentication token not provided.', 401);
-      }
+      if (!authorization) throw new CustomError('Authentication token not provided.', 401);
 
       const [, refreshToken] = authorization.split(' ');
       jwt.verify(refreshToken, secretKeyRefresh, async (err, decoded) => {
-        if (err) {
-          return res.status(401).json({ message: 'Invalid Token.' });
-        }
-        // Recupera o ID do usuário do token
+        if (err) return res.status(401).json({ message: 'Invalid Token.' });
+
         const { id, email } = decoded;
 
-        if (!id || !email) {
-          return res.status(401).json({ message: 'Invalid user.' });
-        }
+        if (!id || !email) return res.status(401).json({ message: 'Invalid user.' });
 
         const verifyUser = await this.userService.getUserByEmail(email);
-        if (!verifyUser) {
-          return res.status(404).json({ message: 'User not found.' });
-        }
+        if (!verifyUser) return res.status(404).json({ message: 'User not found.' });
 
         const newToken = jwt.sign({ id, email }, secretKey, { expiresIn: '6h' });
         const newRefreshToken = jwt.sign(
