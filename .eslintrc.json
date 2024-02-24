@@ -13,9 +13,9 @@
     "rules": {
         "linebreak-style": ["error", "windows"],
         "max-len": ["error", {
-            "code": 50,
+            "code": 140,
             "tabWidth": 2,
-            "comments": 20,
+            "comments": 120,
             "ignoreUrls": true,
             "ignoreStrings": true,
             "ignoreTemplateLiterals": true
