@@ -43,6 +43,10 @@ class ClientController {
       const client = await this.clientService.getClientById(clientId);
       if (!client) return errorHandlerCustom(res, 'Client not found.', 404);
 
+      const { contact } = updatedClient;
+      const verifyContact = await this.clientService.getClientByContact(contact);
+      if (verifyContact && verifyContact.clientId !== clientId) return errorHandlerCustom(res, 'Contact already in use.', 400);
+
       await this.clientService.updateClient(clientId, updatedClient);
       return res.status(200).json({ message: 'Client updated successfully.', updatedClient });
     } catch (e) {

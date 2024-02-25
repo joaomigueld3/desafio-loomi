@@ -25,13 +25,12 @@ class ClientValidation {
 
   static updateClientSchema(req, res, next) {
     const schema = Joi.object({
-      clientId: Joi.number().integer().required(),
       fullName: Joi.string(),
       contact: Joi.string(),
       address: Joi.string().allow(''),
       status: Joi.boolean(),
     });
-    validateSchema('params', schema)(req, res, next);
+    validateSchema('body', schema)(req, res, next);
   }
 
   static deleteClientSchema(req, res, next) {

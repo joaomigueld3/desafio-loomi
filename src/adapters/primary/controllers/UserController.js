@@ -77,8 +77,8 @@ class UserController {
       const { email, password } = req.body;
       const user = await this.userService.login(email, password);
 
-      const token = jwt.sign({ id: user.id, email: user.email }, secretKey, { expiresIn: '5h' });
-      const refreshToken = jwt.sign({ id: user.id, email: user.email }, secretKeyRefresh, { expiresIn: '30 days' });
+      const token = jwt.sign({ id: user.id, email: user.email, type: user.type }, secretKey, { expiresIn: '5h' });
+      const refreshToken = jwt.sign({ id: user.id, email: user.email, type: user.type }, secretKeyRefresh, { expiresIn: '30 days' });
 
       return res.status(200).json({
         message: 'Login successful.',
@@ -115,16 +115,16 @@ class UserController {
       jwt.verify(refreshToken, secretKeyRefresh, async (err, decoded) => {
         if (err) return res.status(401).json({ message: 'Invalid Token.' });
 
-        const { id, email } = decoded;
+        const { id, email, type } = decoded;
 
         if (!id || !email) return res.status(401).json({ message: 'Invalid user.' });
 
         const verifyUser = await this.userService.getUserByEmail(email);
         if (!verifyUser) return res.status(404).json({ message: 'User not found.' });
 
-        const newToken = jwt.sign({ id, email }, secretKey, { expiresIn: '6h' });
+        const newToken = jwt.sign({ id, email, type }, secretKey, { expiresIn: '6h' });
         const newRefreshToken = jwt.sign(
-          { id, email },
+          { id, email, type },
           secretKeyRefresh,
           { expiresIn: '30 days' },
         );
