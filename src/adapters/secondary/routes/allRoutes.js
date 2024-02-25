@@ -4,6 +4,7 @@ import UserRouter from './UserRoutes.js';
 import ClientRouter from './ClientRoutes.js';
 import OrderRouter from './OrderRoutes.js';
 import ProductRouter from './ProductRoutes.js';
+import OrderItemRouter from './OrderItemRoutes.js';
 
 const allRoutes = express.Router();
 
@@ -11,5 +12,6 @@ allRoutes.use('/', UserRouter);
 allRoutes.use('/clients', authToken, ClientRouter);
 allRoutes.use('/orders', authToken, OrderRouter);
 allRoutes.use('/products', authToken, ProductRouter);
+allRoutes.use('/order-items', authToken, OrderItemRouter);
 
 export default allRoutes;
