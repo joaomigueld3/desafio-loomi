@@ -28,8 +28,16 @@ class OrderItemController {
 
   async createOrderItem(req, res) {
     try {
-      const orderItemData = req.body;
-      const orderItem = await this.orderItemService.createOrderItem(orderItemData);
+      const {
+        orderId, productId, quantity, pricePerUnit,
+      } = req.body;
+
+      const orderItem = await this.orderItemService.createOrderItem(
+        orderId,
+        productId,
+        quantity,
+        pricePerUnit,
+      );
       return res.status(201).json({ message: 'OrderItem created', orderItem });
     } catch (e) {
       return errorHandler(e, res);

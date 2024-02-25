@@ -7,7 +7,7 @@ class OrderValidation {
       clientId: Joi.number().integer().required(),
       status: Joi.string().valid('Received', 'In Preparation', 'Dispatched', 'Delivered').required(),
       orderDate: Joi.date().required(),
-      total: Joi.number().required(),
+      total: Joi.number().precision(2).required(),
     });
     validateSchema('body', schema)(req, res, next);
   }
@@ -24,7 +24,7 @@ class OrderValidation {
       clientId: Joi.number().integer(),
       status: Joi.string().valid('Received', 'In Preparation', 'Dispatched', 'Delivered'),
       orderDate: Joi.date(),
-      total: Joi.number(),
+      total: Joi.number().precision(2),
     });
     validateSchema('body', schema)(req, res, next);
   }
