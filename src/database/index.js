@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Sequelize from 'sequelize';
 import dbconfig from '../config/database.js';
 
@@ -6,31 +7,17 @@ import Client from '../entities/models/Client.js';
 import Order from '../entities/models/Order.js';
 import OrderItem from '../entities/models/OrderItem.js';
 import Product from '../entities/models/Product.js';
+import syncModel from '../utils/modelSyncHelper.js';
 
 const connection = new Sequelize(dbconfig);
 
 async function syncModels() {
   try {
-    await User.init(connection);
-    console.log(
-      `User synchronized with database '${connection.options.database}'.`,
-    );
-    await Client.init(connection);
-    console.log(
-      `Client synchronized with database '${connection.options.database}'.`,
-    );
-    await Product.init(connection);
-    console.log(
-      `Product synchronized with database '${connection.options.database}'.`,
-    );
-    await Order.init(connection);
-    console.log(
-      `Order synchronized with database '${connection.options.database}'.`,
-    );
-    await OrderItem.init(connection);
-    console.log(
-      `OrderItem synchronized with database '${connection.options.database}'.`,
-    );
+    await syncModel(User, 'User', connection);
+    await syncModel(Client, 'Client', connection);
+    await syncModel(Product, 'Product', connection);
+    await syncModel(Order, 'Order', connection);
+    await syncModel(OrderItem, 'OrderItem', connection);
 
     User.associate(connection.models);
     Client.associate(connection.models);

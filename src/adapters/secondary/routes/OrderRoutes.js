@@ -13,8 +13,8 @@ const orderController = new OrderController(orderService);
 
 orderRouter.post('/', orderController.createOrder.bind(orderController));
 orderRouter.get('/', orderController.getAllOrders.bind(orderController));
-orderRouter.get('/:id', orderController.getOrderById.bind(orderController));
-orderRouter.put('/:id', orderController.updateOrder.bind(orderController));
-orderRouter.delete('/:id', orderController.deleteOrder.bind(orderController));
+orderRouter.get('/:orderId', orderController.getOrderById.bind(orderController));
+orderRouter.put('/:orderId', orderController.updateOrder.bind(orderController));
+orderRouter.delete('/:orderId', orderController.deleteOrder.bind(orderController));
 
 export default orderRouter;
