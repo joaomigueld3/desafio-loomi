@@ -26,18 +26,7 @@ class ClientService {
   }
 
   async updateClient(clientId, updatedClient) {
-    const client = await this.clientRepository.findById(clientId);
-    if (!client) throw new CustomError('Client not found', 404);
-
-    const { contact } = updatedClient;
-    const verifyContact = await this.clientRepository.findByContact(contact);
-    if (verifyContact.clientId !== clientId) throw new CustomError('Contact already in use.', 400);
-
-    return this.clientRepository.update(clientId, {
-      fullName: updatedClient.fullName,
-      contact: updatedClient.contact,
-      status: updatedClient.status,
-    });
+    return this.clientRepository.update(clientId, updatedClient);
   }
 
   async deleteClient(clientId) {

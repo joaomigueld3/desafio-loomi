@@ -21,11 +21,16 @@ class UserValidation {
 
   static updateUserByIdSchema(req, res, next) {
     const schema = Joi.object({
-      id: Joi.number().integer().required(),
       name: Joi.string(),
       email: Joi.string().email(),
+    });
+    validateSchema('body', schema)(req, res, next);
+  }
+
+  static LoginOrchangePassSchema(req, res, next) {
+    const schema = Joi.object({
+      email: Joi.string().email(),
       password: Joi.string().min(8),
-      type: Joi.string().valid('Admin', 'Client'),
     });
     validateSchema('body', schema)(req, res, next);
   }
