@@ -16,7 +16,7 @@ class ClientController {
 
   async getClientById(req, res) {
     try {
-      const clientId = req.params.id;
+      const { clientId } = req.params;
       const client = await this.clientService.getClientById(clientId);
       if (!client) return errorHandlerCustom(res, 'Client not found.', 404);
 
@@ -38,7 +38,7 @@ class ClientController {
 
   async updateClient(req, res) {
     try {
-      const clientId = req.params.id;
+      const { clientId } = req.params;
       const updatedClient = req.body;
       const client = await this.clientService.getClientById(clientId);
       if (!client) return errorHandlerCustom(res, 'Client not found.', 404);
@@ -52,12 +52,11 @@ class ClientController {
 
   async deleteClient(req, res) {
     try {
-      const clientId = req.params.id;
+      const { clientId } = req.params;
       const client = await this.clientService.getClientById(clientId);
       if (!client) return errorHandlerCustom(res, 'Client not found.', 404);
 
       const deletedClient = client;
-
       await this.clientService.deleteClient(clientId);
       return res.status(200).json({ message: 'Client deleted successfully.', deletedClient });
     } catch (e) {

@@ -26,7 +26,7 @@ class OrderController {
 
   async getOrderById(req, res) {
     try {
-      const orderId = req.params.id;
+      const { orderId } = req.params;
       const order = await this.orderService.getOrderById(orderId);
       if (!order) return errorHandlerCustom(res, 'Order not found.', 404);
       return res.status(200).json(order);
@@ -37,7 +37,7 @@ class OrderController {
 
   async updateOrder(req, res) {
     try {
-      const orderId = req.params.id;
+      const { orderId } = req.params;
       const updatedOrder = req.body;
       const order = await this.orderService.getOrderById(orderId);
       if (!order) return errorHandlerCustom(res, 'Order not found.', 404);
@@ -52,7 +52,7 @@ class OrderController {
 
   async deleteOrder(req, res) {
     try {
-      const orderId = req.params.id;
+      const { orderId } = req.params;
       const order = await this.orderService.getOrderById(orderId);
       if (!order) return errorHandlerCustom(res, 'Order not found', 404);
 
