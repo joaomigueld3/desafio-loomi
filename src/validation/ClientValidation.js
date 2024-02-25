@@ -39,6 +39,13 @@ class ClientValidation {
     });
     validateSchema('params', schema)(req, res, next);
   }
+
+  static getClientByNameSchema(req, res, next) {
+    const schema = Joi.object({
+      fullName: Joi.string().required(),
+    });
+    validateSchema('body', schema)(req, res, next);
+  }
 }
 
 export default ClientValidation;

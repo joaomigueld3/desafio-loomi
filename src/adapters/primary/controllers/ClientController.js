@@ -67,6 +67,18 @@ class ClientController {
       return errorHandler(e, res);
     }
   }
+
+  async getClientByName(req, res) {
+    try {
+      const { fullName } = req.body;
+      const client = await this.clientService.getClientByName(fullName);
+      if (!client) return errorHandlerCustom(res, 'Client not found.', 404);
+
+      return res.status(200).json(client);
+    } catch (e) {
+      return errorHandler(e, res);
+    }
+  }
 }
 
 export default ClientController;
