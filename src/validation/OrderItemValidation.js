@@ -35,6 +35,19 @@ class OrderItemValidation {
     });
     validateSchema('params', schema)(req, res, next);
   }
+
+  static getOrderItemsByFiltersSchema(req, res, next) {
+    const schema = Joi.object({
+      orderId: Joi.number().integer().positive(),
+      productId: Joi.number().integer().positive(),
+      quantity: Joi.number().integer().positive(),
+      minPricePerUnit: Joi.number().positive(),
+      maxPricePerUnit: Joi.number().positive(),
+      minSubtotal: Joi.number().positive(),
+      maxSubtotal: Joi.number().positive(),
+    });
+    validateSchema('body', schema)(req, res, next);
+  }
 }
 
 export default OrderItemValidation;

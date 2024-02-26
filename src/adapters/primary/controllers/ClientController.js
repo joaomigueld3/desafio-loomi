@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { errorHandlerCustom, errorHandler } from '../../../utils/errorHandler.js';
 
 class ClientController {
@@ -77,6 +78,35 @@ class ClientController {
       return res.status(200).json(client);
     } catch (e) {
       return errorHandler(e, res);
+    }
+  }
+
+  async getClientsByFilters(req, res) {
+    try {
+      const filters = req.body;
+
+      const filterOptions = {};
+      if (filters.fullName) {
+        filterOptions.fullName = { [Op.iLike]: `%${filters.fullName}%` };
+      }
+      if (filters.contact) {
+        filterOptions.contact = { [Op.iLike]: `%${filters.contact}%` };
+      }
+      if (filters.address) {
+        filterOptions.address = { [Op.iLike]: `%${filters.address}%` };
+      }
+      if (filters.status !== undefined) {
+        filterOptions.status = filters.status;
+      }
+
+      const filteredClients = await this.clientService.getClientsByFilters(filterOptions);
+      if (filteredClients.length < 1) {
+        return res.status(404).json({ error: 'Clients not found' });
+      }
+
+      return res.status(200).json(filteredClients);
+    } catch (error) {
+      return errorHandler(error, res);
     }
   }
 }

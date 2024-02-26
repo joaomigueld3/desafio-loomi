@@ -21,5 +21,6 @@ userRouter.put('/change-password', authToken, UserValidation.LoginOrchangePassSc
 userRouter.get('/users/:id', authToken, UserValidation.getUserByIdSchema, userController.getUserById.bind(userController));
 userRouter.put('/users/:id', authToken, UserValidation.updateUserByIdSchema, userController.updateUser.bind(userController));
 userRouter.delete('/users/:id', authToken, UserValidation.deleteUserByIdSchema, userController.deleteUser.bind(userController));
+userRouter.post('/users/filters', authToken, UserValidation.getUsersByFiltersSchema, userController.getUsersByFilters.bind(userController));
 
 export default userRouter;

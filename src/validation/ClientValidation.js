@@ -46,6 +46,16 @@ class ClientValidation {
     });
     validateSchema('body', schema)(req, res, next);
   }
+
+  static getClientsByFiltersSchema(req, res, next) {
+    const schema = Joi.object({
+      fullName: Joi.string().allow(''),
+      contact: Joi.string().allow(''),
+      address: Joi.string().allow(''),
+      status: Joi.boolean().allow(''),
+    });
+    validateSchema('body', schema)(req, res, next);
+  }
 }
 
 export default ClientValidation;

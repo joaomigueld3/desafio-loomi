@@ -30,6 +30,17 @@ class OrderRepository {
       },
     });
   }
+
+  async findByFilters(filters) {
+    try {
+      const orders = await this.orderModel.findAll({
+        where: filters,
+      });
+      return orders;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
 }
 
 export default OrderRepository;

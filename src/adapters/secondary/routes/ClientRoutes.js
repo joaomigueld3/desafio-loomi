@@ -17,5 +17,6 @@ clientRouter.post('/search', ClientValidation.getClientByNameSchema, clientContr
 clientRouter.post('/', ClientValidation.createClientSchema, clientController.createClient.bind(clientController));
 clientRouter.put('/:clientId', ClientValidation.updateClientSchema, clientController.updateClient.bind(clientController));
 clientRouter.delete('/:clientId', ClientValidation.deleteClientSchema, clientController.deleteClient.bind(clientController));
+clientRouter.post('/filters', ClientValidation.getClientsByFiltersSchema, clientController.getClientsByFilters.bind(clientController));
 
 export default clientRouter;

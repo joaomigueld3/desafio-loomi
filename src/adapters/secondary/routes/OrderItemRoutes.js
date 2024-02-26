@@ -22,5 +22,6 @@ orderItemRouter.get('/:itemId', OrderItemValidation.getOrderItemByIdSchema, orde
 orderItemRouter.post('/', OrderItemValidation.createOrderItemValidation, orderItemController.createOrderItem.bind(orderItemController));
 orderItemRouter.put('/:itemId', OrderItemValidation.updateOrderItemSchema, orderItemController.updateOrderItem.bind(orderItemController));
 orderItemRouter.delete('/:itemId', OrderItemValidation.deleteOrderItemSchema, orderItemController.deleteOrderItem.bind(orderItemController));
+orderItemRouter.post('/filters', OrderItemValidation.getOrderItemsByFiltersSchema, orderItemController.getOrderItemsByFilters.bind(orderItemController));
 
 export default orderItemRouter;

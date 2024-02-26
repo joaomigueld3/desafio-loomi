@@ -42,6 +42,16 @@ class OrderValidation {
     });
     validateSchema('params', schema)(req, res, next);
   }
+
+  static getOrdersByFiltersSchema(req, res, next) {
+    const schema = Joi.object({
+      clientId: Joi.number().integer().positive(),
+      status: Joi.string().valid('Received', 'In Preparation', 'Dispatched', 'Delivered').allow(''),
+      startDate: Joi.date(),
+      endDate: Joi.date(),
+    });
+    validateSchema('body', schema)(req, res, next);
+  }
 }
 
 export default OrderValidation;

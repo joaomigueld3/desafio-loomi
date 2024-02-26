@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { errorHandler, errorHandlerCustom } from '../../../utils/errorHandler.js';
 
 // order-item.controller.js
@@ -69,6 +70,44 @@ class OrderItemController {
       return res.status(200).json({ message: 'OrderItem deleted successfully', deletedOrderItem });
     } catch (e) {
       return errorHandler(e, res);
+    }
+  }
+
+  async getOrderItemsByFilters(req, res) {
+    try {
+      const filters = req.body;
+
+      const filterOptions = {};
+      if (filters.orderId) {
+        filterOptions.orderId = filters.orderId;
+      }
+      if (filters.productId) {
+        filterOptions.productId = filters.productId;
+      }
+      if (filters.quantity) {
+        filterOptions.quantity = filters.quantity;
+      }
+      if (filters.minPricePerUnit) {
+        filterOptions.pricePerUnit = { [Op.gte]: parseFloat(filters.minPricePerUnit) };
+      }
+      if (filters.maxPricePerUnit) {
+        filterOptions.pricePerUnit = { ...filterOptions.pricePerUnit, [Op.lte]: parseFloat(filters.maxPricePerUnit) };
+      }
+      if (filters.minSubtotal) {
+        filterOptions.subtotal = { [Op.gte]: parseFloat(filters.minSubtotal) };
+      }
+      if (filters.maxSubtotal) {
+        filterOptions.subtotal = { ...filterOptions.subtotal, [Op.lte]: parseFloat(filters.maxSubtotal) };
+      }
+
+      const filteredOrderItems = await this.orderItemService.getOrderItemsByFilters(filterOptions);
+      if (filteredOrderItems.length < 1) {
+        return res.status(404).json({ error: 'Order items not found' });
+      }
+
+      return res.status(200).json(filteredOrderItems);
+    } catch (error) {
+      return errorHandler(error, res);
     }
   }
 }

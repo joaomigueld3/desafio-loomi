@@ -55,6 +55,17 @@ class ClientRepository {
       throw new Error(e);
     }
   }
+
+  async findByFilters(filters) {
+    try {
+      const clients = await this.client.findAll({
+        where: filters,
+      });
+      return clients;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
 }
 
 export default ClientRepository;

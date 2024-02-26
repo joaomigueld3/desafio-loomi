@@ -36,6 +36,10 @@ class ClientService {
   async getClientByName(name) {
     return this.clientRepository.findByName(name);
   }
+
+  async getClientsByFilters(filters) {
+    return this.clientRepository.findByFilters(filters);
+  }
 }
 
 export default ClientService;
