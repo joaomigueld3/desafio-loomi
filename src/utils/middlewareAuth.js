@@ -16,7 +16,11 @@ async function authenticateToken(req, res, next) {
     return;
   }
 
-  const [, token] = authorization.split(' '); // separando o Bearer do token lá do headers do postman
+  // const [, token] = authorization.split(' '); // separando o Bearer do token lá do headers do postman
+
+  let token;
+  if (authorization.startsWith('Bearer ')) token = authorization.slice(7);
+  else token = authorization;
 
   try {
     // eslint-disable-next-line consistent-return
