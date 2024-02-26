@@ -46,6 +46,17 @@ class UserRepository {
       },
     });
   }
+
+  async findByFilters(filters) {
+    try {
+      const users = await this.user.findAll({
+        where: filters,
+      });
+      return users;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
 }
 
 export default UserRepository;

@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { Op } from 'sequelize';
 import { errorHandlerCustom, errorHandler } from '../../../utils/errorHandler.js';
 
 dotenv.config({ path: '.env' });
@@ -136,6 +137,32 @@ class UserController {
       });
     } catch (e) {
       return errorHandler(e, res);
+    }
+  }
+
+  async getUsersByFilters(req, res) {
+    try {
+      const filters = req.body;
+
+      const filterOptions = {};
+      if (filters.name) {
+        filterOptions.name = { [Op.iLike]: `%${filters.name}%` };
+      }
+      if (filters.email) {
+        filterOptions.email = { [Op.iLike]: `%${filters.email}%` };
+      }
+      if (filters.type) {
+        filterOptions.type = filters.type;
+      }
+
+      const filteredUsers = await this.userService.getUsersByFilters(filterOptions);
+      if (filteredUsers.length < 1) {
+        return res.status(404).json({ error: 'Users not found' });
+      }
+
+      return res.status(200).json(filteredUsers);
+    } catch (error) {
+      return errorHandler(error, res);
     }
   }
 }

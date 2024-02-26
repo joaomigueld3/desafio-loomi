@@ -57,6 +57,10 @@ class UserService {
     const hashedPassword = await bcrypt.hash(password, 10);
     return this.userRepository.updateByEmail(email, { password: hashedPassword });
   }
+
+  async getUsersByFilters(filters) {
+    return this.userRepository.findByFilters(filters);
+  }
 }
 
 export default UserService;

@@ -41,5 +41,14 @@ class UserValidation {
     });
     validateSchema('params', schema)(req, res, next);
   }
+
+  static getUsersByFiltersSchema(req, res, next) {
+    const schema = Joi.object({
+      name: Joi.string().allow(''),
+      email: Joi.string().email().allow(''),
+      type: Joi.string().valid('Admin', 'Client').allow(''),
+    });
+    validateSchema('body', schema)(req, res, next);
+  }
 }
 export default UserValidation;

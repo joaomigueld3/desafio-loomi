@@ -41,6 +41,10 @@ class OrderItemService {
 
     return orderItem;
   }
+
+  async getOrderItemsByFilters(filters) {
+    return this.orderItemRepository.findByFilters(filters);
+  }
 }
 
 export default OrderItemService;

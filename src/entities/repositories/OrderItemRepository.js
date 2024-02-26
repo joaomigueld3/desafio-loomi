@@ -37,6 +37,17 @@ class OrderItemRepository {
       await orderItem.destroy();
     }
   }
+
+  async findByFilters(filters) {
+    try {
+      const orders = await this.model.findAll({
+        where: filters,
+      });
+      return orders;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
 }
 
 export default OrderItemRepository;
