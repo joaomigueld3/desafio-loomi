@@ -27,7 +27,7 @@ class UserValidation {
     validateSchema('body', schema)(req, res, next);
   }
 
-  static LoginOrchangePassSchema(req, res, next) {
+  static loginOrchangePassSchema(req, res, next) {
     const schema = Joi.object({
       email: Joi.string().email(),
       password: Joi.string().min(8),

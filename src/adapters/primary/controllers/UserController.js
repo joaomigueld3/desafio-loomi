@@ -2,11 +2,13 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { Op } from 'sequelize';
 import { errorHandlerCustom, errorHandler } from '../../../utils/errorHandler.js';
+import transporter from '../../../utils/transporter.js';
 
 dotenv.config({ path: '.env' });
 
 const secretKey = process.env.JWT_SECRET;
 const secretKeyRefresh = process.env.JWT_SECRET_REFRESH;
+const emailSecret = process.env.EMAIL_SECRET;
 
 class UserController {
   constructor(userService) {
@@ -38,7 +40,27 @@ class UserController {
     try {
       const user = req.body;
       const newUser = await this.userService.createUser(user);
-      return res.status(201).json(newUser);
+
+      let url = '';
+      const emailToken = jwt.sign(
+        {
+          user: newUser.id,
+        },
+        emailSecret,
+        {
+          expiresIn: '1d',
+        },
+      );
+
+      url = `http://localhost:9095/api/confirmation/${emailToken}`;
+
+      await transporter.sendMail({
+        to: user.email,
+        subject: 'Confirm Email',
+        html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+      });
+
+      return res.status(201).json({ newUser, url });
     } catch (e) {
       return errorHandler(e, res);
     }
@@ -163,6 +185,19 @@ class UserController {
       return res.status(200).json(filteredUsers);
     } catch (error) {
       return errorHandler(error, res);
+    }
+  }
+
+  async emailConfirmation(req, res) {
+    try {
+      const id = jwt.verify(req.params.token, emailSecret);
+      const userAux = await this.userService.getUserById(id.user);
+      userAux.confirmed = true;
+      await this.userService.updateUser(id, userAux);
+      return res.redirect('http://localhost:9095/api/login');
+      // return res.status(200).json({ message: 'User updated successfully.', updatedUser });
+    } catch (e) {
+      return errorHandler(e, res);
     }
   }
 }
