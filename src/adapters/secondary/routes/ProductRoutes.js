@@ -13,9 +13,9 @@ const productController = new ProductController(productService);
 
 productRouter.get('/', productController.getAllProducts.bind(productController));
 productRouter.get('/:productId', ProductValidation.getProductByIdSchema, productController.getProductById.bind(productController));
-productRouter.post('/filters', ProductValidation.getProductsByFiltersSchema, productController.getProductsByFilters.bind(productController));
 productRouter.post('/', ProductValidation.createProductSchema, productController.createProduct.bind(productController));
 productRouter.put('/:productId', ProductValidation.updateProductSchema, productController.updateProduct.bind(productController));
 productRouter.delete('/:productId', ProductValidation.deleteProductSchema, productController.deleteProduct.bind(productController));
+productRouter.post('/filters', ProductValidation.getProductsByFiltersSchema, productController.getProductsByFilters.bind(productController));
 
 export default productRouter;

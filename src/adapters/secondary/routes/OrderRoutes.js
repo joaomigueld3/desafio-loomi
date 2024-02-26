@@ -18,5 +18,6 @@ orderRouter.get('/:orderId', OrderValidation.getOrderByIdSchema, orderController
 orderRouter.put('/:orderId', OrderValidation.updateOrderSchema, orderController.updateOrder.bind(orderController));
 orderRouter.put('/update-status/:orderId', OrderValidation.updateOrderStatusSchema, orderController.updateOrder.bind(orderController));
 orderRouter.delete('/:orderId', OrderValidation.deleteOrderSchema, orderController.deleteOrder.bind(orderController));
+orderRouter.post('/filters', OrderValidation.getOrdersByFiltersSchema, orderController.getOrdersByFilters.bind(orderController));
 
 export default orderRouter;
