@@ -29,6 +29,17 @@ class ProductRepository {
       await product.destroy();
     }
   }
+
+  async findByFilters(filters) {
+    try {
+      const products = await this.model.findAll({
+        where: filters,
+      });
+      return products;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
 }
 
 export default ProductRepository;

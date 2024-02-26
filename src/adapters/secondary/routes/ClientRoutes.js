@@ -13,6 +13,7 @@ const clientController = new ClientController(clientService);
 
 clientRouter.get('/', ClientValidation.getAllClientsSchema, clientController.getAllClients.bind(clientController));
 clientRouter.get('/:clientId', ClientValidation.getClientByIdSchema, clientController.getClientById.bind(clientController));
+clientRouter.post('/search', ClientValidation.getClientByNameSchema, clientController.getClientByName.bind(clientController));
 clientRouter.post('/', ClientValidation.createClientSchema, clientController.createClient.bind(clientController));
 clientRouter.put('/:clientId', ClientValidation.updateClientSchema, clientController.updateClient.bind(clientController));
 clientRouter.delete('/:clientId', ClientValidation.deleteClientSchema, clientController.deleteClient.bind(clientController));

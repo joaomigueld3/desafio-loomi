@@ -15,12 +15,12 @@ class OrderRepository {
     return this.orderModel.create(orderData);
   }
 
-  async update(orderId, updatedOrder) {
-    return this.orderModel.update(updatedOrder, {
-      where: {
-        orderId,
-      },
-    });
+  async update(orderId, updateOrderData) {
+    const order = await this.findById(orderId);
+    if (order) {
+      return order.update(updateOrderData);
+    }
+    return null;
   }
 
   async delete(orderId) {

@@ -32,6 +32,10 @@ class ClientService {
   async deleteClient(clientId) {
     return this.clientRepository.delete(clientId);
   }
+
+  async getClientByName(name) {
+    return this.clientRepository.findByName(name);
+  }
 }
 
 export default ClientService;

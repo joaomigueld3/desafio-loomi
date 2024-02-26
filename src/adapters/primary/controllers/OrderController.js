@@ -38,11 +38,11 @@ class OrderController {
   async updateOrder(req, res) {
     try {
       const { orderId } = req.params;
-      const updatedOrder = req.body;
+      const updatedOrderData = req.body;
       const order = await this.orderService.getOrderById(orderId);
       if (!order) return errorHandlerCustom(res, 'Order not found.', 404);
 
-      await this.orderService.updateOrder(orderId, updatedOrder);
+      const updatedOrder = await this.orderService.updateOrder(orderId, updatedOrderData);
 
       return res.status(200).json({ message: 'Order updated successfully.', updatedOrder });
     } catch (e) {
