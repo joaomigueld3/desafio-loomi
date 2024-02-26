@@ -22,6 +22,10 @@ class OrderService {
   async deleteOrder(orderId) {
     return this.orderRepository.delete(orderId);
   }
+
+  async getOrdersByFilters(filters) {
+    return this.orderRepository.findByFilters(filters);
+  }
 }
 
 export default OrderService;

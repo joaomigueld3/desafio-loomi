@@ -25,13 +25,12 @@ class ClientValidation {
 
   static updateClientSchema(req, res, next) {
     const schema = Joi.object({
-      clientId: Joi.number().integer().required(),
       fullName: Joi.string(),
       contact: Joi.string(),
       address: Joi.string().allow(''),
       status: Joi.boolean(),
     });
-    validateSchema('params', schema)(req, res, next);
+    validateSchema('body', schema)(req, res, next);
   }
 
   static deleteClientSchema(req, res, next) {
@@ -39,6 +38,23 @@ class ClientValidation {
       clientId: Joi.number().integer().required(),
     });
     validateSchema('params', schema)(req, res, next);
+  }
+
+  static getClientByNameSchema(req, res, next) {
+    const schema = Joi.object({
+      fullName: Joi.string().required(),
+    });
+    validateSchema('body', schema)(req, res, next);
+  }
+
+  static getClientsByFiltersSchema(req, res, next) {
+    const schema = Joi.object({
+      fullName: Joi.string().allow(''),
+      contact: Joi.string().allow(''),
+      address: Joi.string().allow(''),
+      status: Joi.boolean().allow(''),
+    });
+    validateSchema('body', schema)(req, res, next);
   }
 }
 

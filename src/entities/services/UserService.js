@@ -44,6 +44,8 @@ class UserService {
     const user = await this.userRepository.findByEmail(email);
     if (!user) throw new CustomError('User not found.', 404);
 
+    if (!user.confirmed) throw new CustomError('Please confirm your email to login', 400);
+
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) throw new CustomError('Wrong password.', 400);
 
@@ -56,6 +58,10 @@ class UserService {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     return this.userRepository.updateByEmail(email, { password: hashedPassword });
+  }
+
+  async getUsersByFilters(filters) {
+    return this.userRepository.findByFilters(filters);
   }
 }
 

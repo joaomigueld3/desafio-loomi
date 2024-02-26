@@ -15,12 +15,12 @@ class OrderRepository {
     return this.orderModel.create(orderData);
   }
 
-  async update(orderId, updatedOrder) {
-    return this.orderModel.update(updatedOrder, {
-      where: {
-        orderId,
-      },
-    });
+  async update(orderId, updateOrderData) {
+    const order = await this.findById(orderId);
+    if (order) {
+      return order.update(updateOrderData);
+    }
+    return null;
   }
 
   async delete(orderId) {
@@ -29,6 +29,17 @@ class OrderRepository {
         orderId,
       },
     });
+  }
+
+  async findByFilters(filters) {
+    try {
+      const orders = await this.orderModel.findAll({
+        where: filters,
+      });
+      return orders;
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 }
 

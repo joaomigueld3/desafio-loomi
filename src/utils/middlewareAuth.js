@@ -16,7 +16,11 @@ async function authenticateToken(req, res, next) {
     return;
   }
 
-  const [, token] = authorization.split(' '); // separando o Bearer do token lá do headers do postman
+  // const [, token] = authorization.split(' '); // separando o Bearer do token lá do headers do postman
+
+  let token;
+  if (authorization.startsWith('Bearer ')) token = authorization.slice(7);
+  else token = authorization;
 
   try {
     // eslint-disable-next-line consistent-return
@@ -27,18 +31,35 @@ async function authenticateToken(req, res, next) {
       // Decodificou com sucesso o token, podemos armazenar o ID do usuário para uso posterior se necessário
       req.id = decoded.id;
       req.email = decoded.email;
-      const { email } = req;
-      const verifyUser = await User.findOne({
-        where: { email },
-      });
+      req.type = decoded.type;
+      const { id } = req;
+      const verifyUser = await User.findByPk(id);
       if (!verifyUser) {
         return res.status(404).json({ message: 'User not found.' });
       }
       const user = {
         id: req.id,
         email: req.email,
+        type: req.type,
       };
       req.user = user;
+
+      // Verificar o tipo do usuário antes de permitir o acesso
+      if (req.user.type === 'Client') {
+        // Adicione as rotas específicas que os usuários do tipo 'Client' podem acessar
+        if (
+          (req.originalUrl === '/signin' && req.method === 'POST')
+          || (req.originalUrl.startsWith('/users/') && req.method === 'PUT' && req.params.id === req.user.id.toString())
+          || (req.originalUrl === '/products' && req.method === 'GET')
+          || (req.originalUrl === '/orders' && req.method === 'POST')
+        ) {
+          // Acesso permitido para as rotas especificadas
+          return next();
+        }
+
+        // Adicione outras verificações conforme necessário
+        return res.status(403).json({ message: 'Permission denied: User is type Client' });
+      }
       next();
     });
   } catch (error) {
