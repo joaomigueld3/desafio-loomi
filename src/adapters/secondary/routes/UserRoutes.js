@@ -15,12 +15,13 @@ const userController = new UserController(userService);
 userRouter.get('/refresh-token', userController.refreshToken.bind(userController));
 userRouter.get('/users', authToken, userController.getAllUsers.bind(userController));
 
-userRouter.post('/login', UserValidation.LoginOrchangePassSchema, userController.login.bind(userController));
-userRouter.post('/signin', authToken, UserValidation.createUserValidation, userController.createUser.bind(userController));
-userRouter.put('/change-password', authToken, UserValidation.LoginOrchangePassSchema, userController.changePassword.bind(userController));
+userRouter.post('/login', UserValidation.loginOrchangePassSchema, userController.login.bind(userController));
+userRouter.post('/signin', UserValidation.createUserValidation, userController.createUser.bind(userController));
+userRouter.put('/change-password', authToken, UserValidation.loginOrchangePassSchema, userController.changePassword.bind(userController));
 userRouter.get('/users/:id', authToken, UserValidation.getUserByIdSchema, userController.getUserById.bind(userController));
 userRouter.put('/users/:id', authToken, UserValidation.updateUserByIdSchema, userController.updateUser.bind(userController));
 userRouter.delete('/users/:id', authToken, UserValidation.deleteUserByIdSchema, userController.deleteUser.bind(userController));
 userRouter.post('/users/filters', authToken, UserValidation.getUsersByFiltersSchema, userController.getUsersByFilters.bind(userController));
+userRouter.get('/confirmation/:token', userController.emailConfirmation.bind(userController));
 
 export default userRouter;

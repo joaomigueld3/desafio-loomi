@@ -35,6 +35,11 @@ class User extends Model {
           type: DataTypes.ENUM(...Object.values(UserType)),
           defaultValue: UserType.Client,
         },
+        confirmed: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+        },
       },
       {
         sequelize,
@@ -56,6 +61,7 @@ class User extends Model {
       name: this.name,
       email: this.email,
       type: this.type,
+      confirmed: this.confirmed,
       createdAt: this.createdAt,
       updatedAt: this.createdAt,
     };
