@@ -1,49 +1,47 @@
-# desafio-loomi
+# Desafio-Loomi
 
-Instalação e Execução:
+## 📌 Overview  
+This is the backend for **Desafio-Loomi**, providing authentication, user roles, and order management with a RESTful API.
+
+---
+
+## 🚀 Installation & Setup  
+
+### 1️⃣ Clone the Repository  
+```sh
 git clone https://github.com/joaomigueld3/desafio-loomi.git
+cd desafio-loomi
+```
 
-Instale as dependências:
-cd seu-repositorio
+### 2️⃣ Install Dependencies  
+```sh
 npm install
+```
+### 3️⃣ Configure Environment Variables
+#### Create a .env file based on .env.example
+#### Fill in required environment variables (database, API keys, etc.)
 
-Configure as variáveis de ambiente:
-Crie um arquivo '.env' seguindo o '.env.example'
+### 4️⃣ Run the Application
+```sh
+npm run swagger  # Start API documentation  
+npm run dev      # Start the backend server
+```
 
-Execute a aplicação:
-npm run swagger
-npm run dev
+## 🛠 Features
+🔐 Authentication
+#### Login, signup, and refresh-token routes do not require authentication.
+#### Other routes require authentication via JWT tokens.
+#### Email verification is required for new accounts.
 
-Backend da Aplicação
-Funcionalidades:
+## 🎭 User Roles & Permissions
+#### Customer:	Create an account, edit profile, view products, place orders
+#### Admin:	Full access: manage users, products, and orders
 
-1 - Autenticação
-A aplicação possui um fluxo de autenticação, permitindo login com e-mail e senha. O e-mail é validado por meio do envio de um e-mail de confirmação.
-Rota de Login, signin e refresh-token: Não requer autenticação.
-Outras Rotas: Todas as outras rotas exigem autenticação.
+## 📦 Product Management (CRUD)
+#### ✔ Add, update, delete, and list products
+#### ✔ Search with filters (category, price, availability)
+#### ✔ Inventory updates based on orders
 
-2 - Permissionamento:
-Usuário Cliente:
-Pode criar uma conta.
-Pode editar seus próprios dados.
-Pode visualizar produtos.
-Pode criar pedidos.
-
-Usuário Admin:
-Tem acesso irrestrito.
-Pode criar conta.
-Pode deletar/editar todos os usuários e clientes.
-Pode gerenciar produtos.
-Pode gerenciar pedidos.
-
-CRUD de Clientes, Produtos, Pedidos
-
-CRUD de Produtos:
-Criar, Ler, Atualizar e Deletar produtos.
-Detalhes incluem nome, descrição, preço e quantidade total.
-Busca por Filtros Múltiplos:
-Filtrar produtos por categorias, preços e disponibilidade.
-Controle de Quantidade Disponível: Alterado a partir da confirmação de pedidos.
-
-Gestão de Pedidos:
-Atualização de Status de Pedidos; Exemplos de status: 'Em preparação', 'Despachado', 'Entregue'.
+## 📋 Order Management
+#### ✔ Customers can place orders
+#### ✔ Admins can update order statuses (In Preparation, Dispatched, Delivered)
