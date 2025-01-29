@@ -1,7 +1,7 @@
 # Desafio-Loomi
 
 ## 📌 Overview  
-This is the backend for **Desafio-Loomi**, providing authentication, user roles, and order management with a RESTful API.
+This is the backend for **Ecommerce-Chall**, providing authentication, user roles, and order management with a RESTful API.
 
 ---
 
