@@ -1,4 +1,4 @@
-# Desafio-Loomi
+# ecommerce-chall
 
 ## 📌 Overview  
 This is the backend for **Ecommerce-Chall**, providing authentication, user roles, and order management with a RESTful API.
@@ -9,8 +9,8 @@ This is the backend for **Ecommerce-Chall**, providing authentication, user role
 
 ### 1️⃣ Clone the Repository  
 ```sh
-git clone https://github.com/joaomigueld3/desafio-loomi.git
-cd desafio-loomi
+git clone https://github.com/joaomigueld3/ecommerce-chall.git
+cd ecommerce-chall
 ```
 
 ### 2️⃣ Install Dependencies  
