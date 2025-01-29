@@ -5,6 +5,16 @@ This is the backend for **Ecommerce-Chall**, providing authentication, user role
 
 ---
 
+## 🏗 Tech Stack
+
+<img align="center" alt="Joao-Node" height="30" width="40" src="https://skillicons.dev/icons?i=nodejs&theme=light"> Node.js – Backend runtime  
+<img align="center" alt="Joao-Express" height="30" width="40" src="https://skillicons.dev/icons?i=express&theme=light"> Express.js – Web framework  
+<img align="center" alt="Joao-Postgres" height="30" width="40" src="https://skillicons.dev/icons?i=postgres&theme=light"> Postgres – SQL database  
+<img align="center" alt="Joao-Sequelize" height="30" width="40" src="https://skillicons.dev/icons?i=sequelize&theme=light"> Sequelize – Object-Relational Mapping (ORM)  
+<img align="center" alt="Joao-Docker" height="30" width="40" src="https://skillicons.dev/icons?i=docker&theme=light"> Docker - Containerization
+
+</div>
+
 ## 🚀 Installation & Setup  
 
 ### 1️⃣ Clone the Repository  
